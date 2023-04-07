@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>YumTastic - Recipe Details</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png')}}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/aos/aos.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="/" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>Yum</h1><h1 style="color:#ff6a6a;">Tastic<span>.</span></h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="/" >Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/recipes" class="active">Recipes</a></li>
+          <li><a href="/homechef">HomeChefs</a></li>
+          <li><a href="/shop">Shop</a></li>
+          <li><a href="/contact">Contact</a></li>
+          {% if session.logged_in %}
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" >
+              <img src="{{ url_for('static', filename='img/profile-img.jpg')}}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">User 1 LogIn</span>
+            </a><!-- End Profile Iamge Icon -->
+  
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>User1</h6>
+                <span>Food Blogger</span>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+  
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+          {% else %}
+          <li><a class="btn-book-a-table" href="/pages_register">Login/Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center"style="background-image: url('{{ url_for('static', filename='img/breadcrumbs-bg.jpg') }}')">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Recipe Details</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/recipes">Recipes</a></li>
+          <li>Recipe Details</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Blog Details Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-5">
+
+          <div class="col-lg-8">
+
+            <article class="blog-details">
+
+              
+              <div class="post-img">
+                {% set fname = 'img/foodimg/' +  recipe.Image  %}
+                <img src="{{ url_for('static', filename=fname)}}" width="1000px" alt="" class="img-fluid"/>
+              </div>
+              <h2 class="title">{{recipe.Title}}</h2>
+
+             
+              <div class="meta-top">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{recipe.RecipeAuthor}}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{recipe.Date}}</time></a></li>
+                </ul>
+              </div><!-- End meta top -->
+
+              <div class="content">
+                <h4>Ingredients</h4>
+                <p>{{recipe.Ingredients}}</p>
+                <br>
+                <h4>Instructions</h4>
+                <p>{{recipe.Instructions}}</p>
+                
+
+              </div><!-- End post content -->
+
+              <div class="meta-bottom">
+                <i class="bi bi-folder"></i>
+                <ul class="cats">
+                  <li><a href="#">{{recipe.Category}}</a></li>
+                </ul>
+
+                <i class="bi bi-tags"></i>
+                <ul class="tags">
+                  <li><a href="#">Tasty</a></li>
+                  <li><a href="#">healthy</a></li>
+                  <li><a href="#">Vegetarian</a></li>
+                </ul>
+              </div><!-- End meta bottom -->
+
+            </article><!-- End blog post -->
+
+            <div class="post-author d-flex align-items-center">
+              <img src="{{ url_for('static', filename='img/blog/blog-author.jpg')}}" class="rounded-circle flex-shrink-0" alt=""/>
+              <div>
+                <h4>{{recipe.RecipeAuthor}}</h4>
+                <div class="social-links">
+                  <a href="https://twitters.com/#"><i class="bi bi-twitter"></i></a>
+                  <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
+                  <a href="https://instagram.com/#"><i class="biu bi-instagram"></i></a>
+                </div>
+                <p>
+                  Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde voluptas.
+                </p>
+              </div>
+            </div><!-- End post author -->
+
+            
+
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+
+              <div class="row g-2">
+                
+              </div><!-- End sidebar search formn-->
+              <br/>
+             <div>
+              <h3 class ="sidebar-title">Have you tried it...</h3>
+              <br>
+              <a class="btn-book-a-table" href="/post_form">Post in Community</a></li>
+              <br>
+            </div>
+              <br>
+              <div class="sidebar-item recent-posts">
+                <h3 class="sidebar-title">Recent Posts</h3>
+
+                <div class="mt-3">
+
+                  {% for nrec in all_rec[:5] %} 
+                  <div class="post-item mt-3">
+                    {% set fname = 'img/foodimg/' +  nrec.Image  %}
+                    <img src="{{ url_for('static', filename=fname)}}" alt="">
+                    <div>
+                      <h4><a href="/recipes/recipe_details/{{nrec.Slug}}">{{nrec.Title}}</a></h4>
+                      <time datetime="2020-01-01">{{nrec.Date}}</time>
+                    </div>
+                  </div><!-- End recent post item-->
+                  {% endfor %}
+                  <div class="post-item">
+                    <img src="{{ url_for('static', filename='img/blog/blog-recent-5.jpg')}}" alt=""/>
+                    <div>
+                      <h4><a href="/shop">Et dolores corrupti quae illo quod dolor</a></h4>
+                      <time datetime="2020-01-01">Jan 1, 2020</time>
+                    </div>
+                  </div><!-- End recent post item-->
+
+                </div>
+
+              </div><!-- End sidebar recent posts-->
+
+              <div class="sidebar-item tags">
+                <h3 class="sidebar-title">Tags</h3>
+                <ul class="mt-3">
+                  <li><a href="#">Breakfast</a></li>
+                  <li><a href="#">Healthy</a></li>
+                  <li><a href="#">Tasty</a></li>
+                  <li><a href="#">Nutritious</a></li>
+                  <li><a href="#">Easy</a></li>
+                  <li><a href="#">South Indian</a></li>
+                </ul>
+              </div><!-- End sidebar tags-->
+
+            </div><!-- End Blog Sidebar -->
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Blog Details Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content position-relative">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>YumTastic</h3>
+              <p>
+                CSE dept <br>
+                IIT Delhi, India<br><br>
+                <strong>Phone:</strong> +91 1234567890<br>
+                <strong>Email:</strong> sample@example.com<br>
+              </p>
+              <div class="social-links d-flex mt-3">
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div><!-- End footer info column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">About us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Internal Pages</h4>
+            <ul>
+              <li><a href="/recipes">All Recipes </a></li>
+              <li><a href="/homechef">Homechefs</a></li>
+              <li><a href="/shop">Shop</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal text-center position-relative">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Yumtastic</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BugSquashers</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/aos/aos.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+
+</body>
+
+</html>

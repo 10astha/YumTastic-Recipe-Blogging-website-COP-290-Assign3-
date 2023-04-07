@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>YumTastic - HomeChefs</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+   <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png')}}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+ 
+   <!-- Vendor CSS Files -->
+   <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/aos/aos.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+ 
+   <!-- Template Main CSS File -->
+   <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet">
+ 
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="/" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>Yum</h1><h1 style="color:#ff6a6a;">Tastic<span>.</span></h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="/" >Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/recipes">Recipes</a></li>
+          <li><a href="/homechef" class="active">HomeChefs</a></li>
+          <li><a href="/shop">Shop</a></li>
+          <li><a href="/contact">Contact</a></li>
+          {% if session.logged_in %}
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" >
+              <img src="{{ url_for('static', filename='img/profile-img.jpg')}}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">User 1 LogIn</span>
+            </a><!-- End Profile Iamge Icon -->
+  
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>User1</h6>
+                <span>Food Blogger</span>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+  
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+          {% else %}
+          <li><a class="btn-book-a-table" href="/pages_register">Login/Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center"style="background-image: url('{{ url_for('static', filename='img/breadcrumbs-bg.jpg') }}')">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>HomeChefs</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>HomeChefs</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+<!--add anything related to body here-->
+    <div>
+      <br/>
+      <a href="/post_form"><img src="{{ url_for('static', filename='img/My project-2.png')}}" style="height:100%; width:100%; "/></a>
+    </div>
+
+    <!-- ======= Latest posts Section ======= -->
+    <section class="section-posts section-t8">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a">Latest Posts</h2>
+              </div>
+              <div class="title-link">
+                <a href="/homechef/all_posts">All Posts
+                  <span class="bi bi-chevron-right"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="posts-carousel" class="swiper">
+          <div class="swiper-wrapper">
+            {% for latest_post in latest_posts %}  
+            <div class="carousel-item-b swiper-slide">
+              <div class="card-box-a card-shadow">
+                <div class="img-box-a">
+                  {% set fname = 'img/foodimg/' +  latest_post.images  %}
+                  <img src="{{ url_for('static', filename=fname)}}" alt=""  width="1000px" style = "object-fit: fill;" class="img-a img-fluid"/>
+                </div>
+                <div class="card-overlay">
+                  <div class="card-overlay-a-content">
+                    <div class="card-header-a">
+                      <h2 class="card-title-a">
+                        <a href="/homechef/all_posts/post_details/{{latest_post.slug}}">
+                          <br /> {{latest_post.title[0:15]}}...</a>
+                      </h2>
+                    </div>
+                    <div class="card-body-a">
+                      <div class="price-box d-flex">
+                        <span class="price-a">Most Liked Recipe</span>
+                      </div>
+                      <a href="/homechef/all_posts/post_details/{{latest_post.slug}}" class="link-a">Click here to view
+                        <span class="bi bi-chevron-right"></span>
+                      </a>
+                    </div>
+                    <div class="card-footer-a">
+                      <ul class="card-info d-flex justify-content-around">
+                        <li>
+                          <h4 class="card-info-title">Likes</h4>
+                          <span>{{latest_post.likes}}
+                          </span>
+                        </li>
+                        <li>
+                          <h4 class="card-info-title">Followers</h4>
+                          <span>50+</span>
+                        </li>
+                        <li>
+                          <h4 class="card-info-title">Share</h4>
+                          <span>5+</span>
+                        </li>
+                        <li>
+                          <h4 class="card-info-title">Comments</h4>
+                          <span>4</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End carousel item -->
+            {% endfor %}
+          </div>
+        </div>
+        <div class="propery-carousel-pagination carousel-pagination"></div>
+
+      </div>
+    </section><!-- End Latest Properties Section -->
+
+        <!-- ======= homechefs Section ======= -->
+        <section id="homechefs" class="homechefs">
+          <div class="container" data-aos="fade-up">
+    
+            <div class="section-header">
+              <h2>Top HomeChefs</h2>
+              <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad dolores adipisci aliquam.</p>
+            </div>
+    
+            <div class="row gy-5">
+              {% for user in top_users %}
+              <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                <div class="homechefs-item">
+                  <div class="img">
+                    <!--need ot figure out a way to store images-->
+                    <img src="{{ url_for('static', filename='img/blog/blog-author')}}.jpg" class="img-fluid" alt=""/>
+                  </div>
+                  <div class="details position-relative">
+                    <a href="#" class="stretched-link">
+                      <h3>{{user.name}}</h3>
+                    </a>
+                    <p>Followers : {{user.followers}}</p>
+                    <p>Posts : {{user.PostUploaded}}</p>
+                  </div>
+                </div>
+              </div><!-- End homechefs Item -->
+              {% endfor %}
+    
+            </div>
+    
+          </div>
+        </section><!-- End homechefs Section -->
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content position-relative">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>YumTastic</h3>
+              <p>
+                CSE dept <br>
+                IIT Delhi, India<br><br>
+                <strong>Phone:</strong> +91 1234567890<br>
+                <strong>Email:</strong> sample@example.com<br>
+              </p>
+              <div class="social-links d-flex mt-3">
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div><!-- End footer info column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">About us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Internal Pages</h4>
+            <ul>
+              <li><a href="/recipes">All Recipes </a></li>
+              <li><a href="/homechef">Homechefs</a></li>
+              <li><a href="/shop">Shop</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal text-center position-relative">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Yumtastic</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BugSquashers</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/aos/aos.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+
+</body>
+
+</html>

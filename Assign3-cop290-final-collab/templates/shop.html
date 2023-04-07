@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>YumTastic - Shop</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+   <!-- Favicons -->
+ <link href="{{ url_for('static', filename='img/favicon.png')}}" rel="icon">
+ <link href="{{ url_for('static', filename='img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+ 
+   <!-- Vendor CSS Files -->
+   <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/aos/aos.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+ 
+   <!-- Template Main CSS File -->
+   <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet">
+ 
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="/" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>Yum</h1><h1 style="color:#ff6a6a;">Tastic<span>.</span></h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="/" >Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/recipes">Recipes</a></li>
+          <li><a href="/homechef">HomeChefs</a></li>
+          <li><a href="/shop" class="active">Shop</a></li>
+          <li><a href="/contact">Contact</a></li>
+          {% if session.logged_in %}
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" >
+              <img src="{{ url_for('static', filename='img/profile-img.jpg')}}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">User 1 LogIn</span>
+            </a><!-- End Profile Iamge Icon -->
+  
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>User1</h6>
+                <span>Food Blogger</span>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/user_profile/{{session.username}}">
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+  
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+  
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+          {% else %}
+          <li><a class="btn-book-a-table" href="/pages_register">Login/Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center"style="background-image: url('{{ url_for('static', filename='img/breadcrumbs-bg.jpg') }}')">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Shop</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>Shop</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Our Projects Section ======= -->
+    <section id="sq_section" class="sq_section">
+      <div class="container" data-aos="fade-up">
+
+        <div class="sqr-isotope" data-sqr-filter="*" data-sqr-layout="masonry" data-sqr-sort="original-order">
+
+          <ul class="sqr-flters" data-aos="fade-up" data-aos-delay="100">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-remodeling">Kitchen Tools</li>
+            <li data-filter=".filter-construction">Cookware</li>
+            <li data-filter=".filter-repairs">Containers</li>
+          </ul><!-- End Projects Filters -->
+
+          <div class="row gy-4 sqr-container" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-remodeling">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/boards.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Chopping Boards</h5>
+                <div class="sqr-info">
+                  <h4>Kitchen Tools 1</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B07GZ36LBJ/ref=as_li_ss_il?ref=exp_influencer-14578421_dp_vv_d&linkCode=li2&tag=budgetbytesshop-20&linkId=e54e3dc868e35c694c0c77984e7405f1&language=en_US" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-construction">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/muffin.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Muffin Pan</h5>
+                <div class="sqr-info">
+                  <h4>Cookware 1</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B00008W70J?asc_item-id=amzn1.ideas.345JYTHHGMSHZ&linkCode=sl1&tag=budgetbytesshop-20&linkId=09b9001fdca2f49380be13ba373c2152&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-repairs">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/container.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Pyrex Container</h5>
+                <div class="sqr-info">
+                  <h4>Containers 1</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B012UNPNNI?th=1&linkCode=sl1&tag=budgetbytesshop-20&linkId=929fcb7175659a7459e053a44de77ea5&language=en_US&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-remodeling">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/spoons.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Measuring spoons and cups</h5>
+                <div class="sqr-info">
+                  <h4>Kitchen Tools 2</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B00KH9PR48/ref=as_li_ss_il?ref=exp_influencer-14578421_dp_vv_d&linkCode=li2&tag=budgetbytesshop-20&linkId=7bd7ab12230fa2b1f0f015494408ee84&language=en_US" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-construction">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/glass.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Glass Bowls</h5>
+                <div class="sqr-info">
+                  <h4>Cookware 2</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B00N1BYMLS?asc_item-id=amzn1.ideas.345JYTHHGMSHZ&linkCode=sl1&tag=budgetbytesshop-20&linkId=1014e245126aa5fce98a732a18be4e51&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-repairs">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/round.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Anchor Hawking set</h5>
+                <div class="sqr-info">
+                  <h4>Container 2</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B01APP1X2I?asc_item-id=amzn1.ideas.345JYTHHGMSHZ&linkCode=sl1&tag=budgetbytesshop-20&linkId=283bc30a2524a508af9d40e4c3654332&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-remodeling">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/strainer.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Mesh Strainer</h5>
+                <div class="sqr-info">
+                  <h4>Kitchen Tools 3</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B007TUQF9O?asc_item-id=amzn1.ideas.2TQWP0QJ5MECH&linkCode=sl1&tag=budgetbytesshop-20&linkId=69287c6ab4ab2a7dbe527ff93d73546d&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-construction">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/cookware.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>CelPhone Cookware</h5>
+                <div class="sqr-info">
+                  <h4>Cookware 3</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B001AS94TY?asc_item-id=amzn1.ideas.345JYTHHGMSHZ&linkCode=sl1&tag=budgetbytesshop-20&linkId=f4f828e0320fc6308b9e3e293cd197e9&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+            <div class="col-lg-3 col-md-6 sqr-item filter-repairs">
+              <div class="sqr-content h-100">
+                <img src="{{ url_for('static', filename='img/shop/newc.jpg')}}" class="img-fluid" alt=""/>
+                <p></p>
+                <h5>Divided Containers</h5>
+                <div class="sqr-info">
+                  <h4>Repairs 3</h4>
+                  <p>Lorem ipsum, dolor sit amet consectetur</p>
+                  <a href="https://www.amazon.com/dp/B0777JD5DD?asc_item-id=amzn1.ideas.39S3I5DXXVQBN&linkCode=sl1&tag=budgetbytesshop-20&linkId=37ab212283e2417f6942ab6bdad35ed7&ref_=as_li_ss_tl" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                </div>
+              </div>
+            </div><!-- End Projects Item -->
+
+          </div><!-- End Projects Container -->
+
+        </div>
+
+      </div>
+    </section><!-- End Our Projects Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content position-relative">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>YumTastic</h3>
+              <p>
+                CSE dept <br>
+                IIT Delhi, India<br><br>
+                <strong>Phone:</strong> +91 1234567890<br>
+                <strong>Email:</strong> sample@example.com<br>
+              </p>
+              <div class="social-links d-flex mt-3">
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div><!-- End footer info column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">About us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Internal Pages</h4>
+            <ul>
+              <li><a href="/recipes">All Recipes </a></li>
+              <li><a href="/homechef">Homechefs</a></li>
+              <li><a href="/shop">Shop</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal text-center position-relative">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Yumtastic</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BugSquashers</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/aos/aos.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+
+</body>
+
+</html>
