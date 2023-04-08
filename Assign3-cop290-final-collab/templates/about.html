@@ -57,13 +57,14 @@
           <li class="nav-item dropdown pe-3">
 
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" >
-              <img src="{{ url_for('static', filename='img/profile-img.jpg')}}" alt="Profile" class="rounded-circle">
-              <span class="d-none d-md-block dropdown-toggle ps-2">User 1 LogIn</span>
+              {% set fname = 'img/user_images/' + params['path_of_img']  %}
+              <img src="{{ url_for('static', filename=fname)}}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{session.username}}</span>
             </a><!-- End Profile Iamge Icon -->
   
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
-                <h6>User1</h6>
+                <h6>{{session.username}}</h6>
                 <span>Food Blogger</span>
               </li>
               <li>
@@ -132,15 +133,15 @@
           <div class="col-lg-7">
             <h2>Our Journey</h2>
             <div class="our-story">
-              <div class="col-lg-7 about-img"style="background-image: url('{{ url_for('static', filename='img/about.jpg') }}'); width: 550px;  height: 650px; "></div>
+              <div class="col-lg-7 about-img" style="background-image: url('{{ url_for('static', filename='img/about.jpg') }}'); width: 40%;  height: 50%; "></div>
               <h4>Est 1988</h4>
-              <p>Inventore aliquam beatae at et id alias. Ipsa dolores amet consequuntur minima quia maxime autem. Quidem id sed ratione. Tenetur provident autem in reiciendis rerum at dolor. Aliquam consectetur laudantium temporibus dicta minus dolor.</p>
+              <p>this is a sample food blooging cum recipe site made as a porject for Cop290.</p>
               <ul>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commo</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>user can see different recipes</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>user can upload his/her own recipes</span></li>
+                <li><i class="bi bi-check-circle"></i> <span>user can commnent on other recipes as well</span></li>
               </ul>
-              <p>Vitae autem velit excepturi fugit. Animi ad non. Eligendi et non nesciunt suscipit repellendus porro in quo eveniet. Molestias in maxime doloremque.</p>
+              <p>hope that everyone like our website</p>
             </div>
           </div>
 
@@ -160,7 +161,7 @@
         <div class="stats-item d-flex align-items-center w-100 h-100">
           <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1" class="purecounter"></span>
             <p>Happy Users</p>
           </div>
         </div>
@@ -170,7 +171,7 @@
         <div class="stats-item d-flex align-items-center w-100 h-100">
           <i class="bi bi-journal-richtext color-orange flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="1021" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="60" data-purecounter-duration="1" class="purecounter"></span>
             <p>Recipes</p>
           </div>
         </div>
@@ -180,7 +181,7 @@
         <div class="stats-item d-flex align-items-center w-100 h-100">
           <i class="bi bi-headset color-green flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="146" data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end="20" data-purecounter-duration="1" class="purecounter"></span>
             <p>Posts</p>
           </div>
         </div>
@@ -208,7 +209,7 @@
 
         <div class="section-header">
           <h2>Our Team</h2>
-          <p>Aperiam dolorum et et wuia molestias qui eveniet numquam nihil porro incidunt dolores placeat sunt id nobis omnis tiledo stran delop</p>
+          <p>this website is developed by BUGSQUASHERS . team members are: </p>
         </div>
 
         <div class="row gy-4">
@@ -216,68 +217,38 @@
           <div class="col-lg-3 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
             <div class="member-img">
               <img src="{{ url_for('static', filename='img/team/team-1.jpg')}}" class="img-fluid" alt=""/>
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
             </div>
             <div class="member-info text-center">
-              <h4>Walter White</h4>
-              <span>Chief Executive Officer</span>
-              <p>Aliquam iure quaerat voluptatem praesentium possimus unde laudantium vel dolorum distinctio dire flow</p>
+              <h4>Piyush Chauhan</h4>
             </div>
           </div><!-- End Team Member -->
 
           <div class="col-lg-3 col-md-6 member" data-aos="fade-up" data-aos-delay="200">
             <div class="member-img">
               <img src="{{ url_for('static', filename='img/team/team-2.jpg')}}" class="img-fluid" alt=""/>
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
             </div>
             <div class="member-info text-center">
-              <h4>Sarah Jhonson</h4>
-              <span>Product Manager</span>
-              <p>Labore ipsam sit consequatur exercitationem rerum laboriosam laudantium aut quod dolores exercitationem ut</p>
+              <h4>Astha Meena</h4>
             </div>
           </div><!-- End Team Member -->
 
           <div class="col-lg-3 col-md-6 member" data-aos="fade-up" data-aos-delay="300">
             <div class="member-img">
               <img src="{{ url_for('static', filename='img/team/team-3.jpg')}}" class="img-fluid" alt=""/>
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
+              
             </div>
             <div class="member-info text-center">
-              <h4>William Anderson</h4>
-              <span>CTO</span>
-              <p>Illum minima ea autem doloremque ipsum quidem quas aspernatur modi ut praesentium vel tque sed facilis at qui</p>
-            </div>
+              <h4>Kartik Meena</h4>
+                        </div>
           </div><!-- End Team Member -->
 
           <div class="col-lg-3 col-md-6 member" data-aos="fade-up" data-aos-delay="400">
             <div class="member-img">
               <img src="{{ url_for('static', filename='img/team/team-4.jpg')}}" class="img-fluid" alt=""/>
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
+             
             </div>
             <div class="member-info text-center">
-              <h4>Amanda Jepson</h4>
-              <span>Accountant</span>
-              <p>Magni voluptatem accusamus assumenda cum nisi aut qui dolorem voluptate sed et veniam quasi quam consectetur</p>
+              <h4>Aayushman Kumar</h4>
             </div>
           </div><!-- End Team Member -->
 

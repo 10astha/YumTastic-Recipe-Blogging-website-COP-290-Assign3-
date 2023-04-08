@@ -2,8 +2,10 @@
     "params":
     {
     "local_server":"True",
-    "local_uri": "mysql://root:@127.0.0.1/YumTastic",
+    "local_uri": "mysql://root:@localhost/YumTastic",
+    "upload_location": "/static/img/user_profile",
     "no_of_posts": 6,
+    "path_of_img" : "",
     "no_of_rec": 6,
     "latest_posts": 4    }
 }
