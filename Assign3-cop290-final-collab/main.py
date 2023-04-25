@@ -20,7 +20,6 @@ app.debug = True
 db = SQLAlchemy(app)
 app.secret_key = "cop290 assignment 3"
 app.config['UPLOAD_FOLDER'] = params['upload_location']
-
 class Contacts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
@@ -36,7 +35,7 @@ class Posts(db.Model):
     email = db.Column(db.String(20), nullable=False)
     slug = db.Column(db.String(10), nullable=False)
     content = db.Column(db.String(120), nullable=False)
-    images = db.Column(db.String(120), nullable=False)
+    images = db.Column(db.String(120), nullable=False) 
     date = db.Column(db.String(12), nullable=True)
     slug = db.Column(db.String(20), nullable=False)
     likes = db.Column(db.Integer, nullable=True)
@@ -47,6 +46,13 @@ class Post_review(db.Model):
     UserName = db.Column(db.String(80), nullable=False)
     Review = db.Column(db.String(120), nullable=False)
     date = db.Column(db.String(12), nullable=True)
+
+# class Posts_like_dislike(db.Model):
+#     user_id = db.Column(db.Integer, db.ForeignKey("user.USERID"), primary_key=True)
+#     user = db.relationship("User", backref=db.backref("posts_like_dislike", cascade="all, delete-orphan"))
+#     post_id = db.Column(db.Integer, db.ForeignKey("post.postID"), primary_key=True)
+#     post = db.relationship("Posts", backref=db.backref("posts_like_dislike", cascade="all, delete-orphan"))
+#     upvote = db.Column(db.Boolean, nullable=False)
 
 class User(db.Model):
     name = db.Column(db.String(80), nullable=False)
@@ -167,7 +173,7 @@ def pages_register():
         session['email'] = email 
         session['username'] = name
         params['path_of_img']= ProfilePhoto 
-        flash('You have successfully registered', 'success')
+        flash('You have successfully registered')
         return redirect("/")
 
 # img upload is still pending to be done
@@ -196,13 +202,16 @@ def post_details(post_slug):
     post_review = Post_review.query.filter_by(PostID = post.sno).all()
     usr = User.query.filter_by(name = post.author).first()
     if(request.method=='POST'):
-        UserName = request.form.get('UserName')
-        Review = request.form.get('Review')
-        entry = Post_review(UserName = UserName, PostID = post.sno ,Review = Review, date= datetime.now())
-        db.session.add(entry)
-        db.session.commit()
-    return render_template('post-details.html', params=params, post=post, post_review = post_review,usr=usr)
-
+        if 'comment_btn' in request.form :
+            UserName = request.form.get('UserName')
+            Review = request.form.get('Review')
+            entry = Post_review(UserName = UserName, PostID = post.sno ,Review = Review, date= datetime.now())
+            db.session.add(entry)
+            db.session.commit()
+        elif 'like_btn' in request.form :
+            post.likes = post.likes+ 1
+            db.session.commit()
+    return render_template("post-details.html",params=params, post=post, post_review = post_review,usr=usr)
 
 
 @app.route('/recipes/recipe_form', methods = ['GET', 'POST'] )
