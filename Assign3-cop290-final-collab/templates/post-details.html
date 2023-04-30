@@ -133,7 +133,7 @@
             <div class="posts-description">
               <h2 >{{post.title}}</h2>
               {% set fname = 'img/foodimg/' + post.images %}
-              <img src ="{{ url_for('static', filename=fname)}}" width="900" height="600"/>
+              <img src ="{{ url_for('static', filename=fname)}}" width="100%" height="auto"/>
               <p>
                 {{post.content}}
               </p>
