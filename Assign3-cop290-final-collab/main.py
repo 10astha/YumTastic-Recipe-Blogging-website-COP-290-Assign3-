@@ -6,9 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import math
 from datetime import datetime
 import os
-
-with open('config.json', 'r') as c:
-    params = json.load(c)["params"]
+import random
+import requests
+params = json.load(open('config.json', 'r'))["params"]
 
 local_server=True
 
@@ -46,14 +46,6 @@ class Post_review(db.Model):
     UserName = db.Column(db.String(80), nullable=False)
     Review = db.Column(db.String(120), nullable=False)
     date = db.Column(db.String(12), nullable=True)
-
-# class Posts_like_dislike(db.Model):
-#     user_id = db.Column(db.Integer, db.ForeignKey("user.USERID"), primary_key=True)
-#     user = db.relationship("User", backref=db.backref("posts_like_dislike", cascade="all, delete-orphan"))
-#     post_id = db.Column(db.Integer, db.ForeignKey("post.postID"), primary_key=True)
-#     post = db.relationship("Posts", backref=db.backref("posts_like_dislike", cascade="all, delete-orphan"))
-#     upvote = db.Column(db.Boolean, nullable=False)
-
 class User(db.Model):
     name = db.Column(db.String(80), nullable=False)
     USERID = db.Column(db.Integer, primary_key=True)
@@ -75,13 +67,44 @@ class Recipes(db.Model):
     Likes = db.Column(db.Integer, primary_key=True)
     Tagger =  db.Column(db.String(80), nullable=False)
 
-
-@app.route('/')
+@app.route('/' ,methods = ['GET','POST'])
 def home():
     lat_post = Posts.query.filter_by().all()
     recipe =  Recipes.query.filter_by().all()
-    return render_template("index.html" ,lat_post = lat_post , recipe = recipe,params = params)
+    params['benefit_str']=""
+    params['caution_str']=""
+    if (request.method == 'GET'):
+        params['benefit_str']=""
+        params['caution_str']=""
+        return render_template("index.html" ,lat_post = lat_post , recipe = recipe,params = params)
+    elif (request.method=='POST'):
+        params['benefit_str']=""
+        params['caution_str']=""
+        rec_name = request.form.get('name')
+        url = "https://edamam-recipe-search.p.rapidapi.com/search"
+        querystring = {"q": rec_name}
 
+        headers = {
+            "content-type": "application/octet-stream",
+            "X-RapidAPI-Key": "04384185a2msha8801dfad644f63p15e50ajsnb860fe374bb6",
+            "X-RapidAPI-Host": "edamam-recipe-search.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        benifits= response.json()['hits'][0]['recipe']['healthLabels']
+        l=len(benifits)
+        for i in range(l):
+            params['benefit_str']=params['benefit_str']+" "+ benifits[i]
+            
+        caution= response.json()['hits'][0]['recipe']['cautions']
+        l=len(caution)
+
+        for i in range(l):
+            params['caution_str']=params['caution_str']+" "+ caution[i]
+        return render_template("index.html" ,lat_post = lat_post , recipe = recipe,params = params)
+
+@app.route('/about', methods = ['GET','POST'])
+def benefit():
+        return render_template("about.html", params=params)
 @app.route('/homechef/all_posts')
 def all_posts():
     all_posts = Posts.query.order_by(Posts.sno.desc()).all()
@@ -106,9 +129,6 @@ def all_posts():
         next = "?page=" + str(page + 1)
     return render_template("all_posts.html", all_posts=all_posts, prev=prev, next=next,params=params)
 
-@app.route('/about')
-def about():
-    return render_template("about.html", params=params)
 
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact():
@@ -180,7 +200,7 @@ def pages_register():
 @app.route('/post_form', methods = ['GET', 'POST'])
 def post_form():
     if(request.method=='POST'):
-        author = request.form.get('author')
+        author = session['username']
         email = request.form.get('email')
         title = request.form.get('title')
         content = request.form.get('content')
@@ -190,7 +210,7 @@ def post_form():
             images  = secure_filename(f.filename)
         else:
             flash('no image selected')
-        slug = "food-post-"
+        slug = "food-post-" + str(random.randint(100,200000))
         entry = Posts(author=author,email = email, title= title,  content = content, date= datetime.now(),slug = slug,images = images , likes=0)
         db.session.add(entry)
         db.session.commit()
@@ -217,12 +237,13 @@ def post_details(post_slug):
 @app.route('/recipes/recipe_form', methods = ['GET', 'POST'] )
 def recipe_form():
     if(request.method=='POST'):
-        RecipeAuthor = request.form.get('RecipeAuthor')
+        all_rec = Recipes.query.filter_by().all()
+        RecipeAuthor =  session['username']
         Category = request.form.get('Category')
         Title = request.form.get('Title')
         Ingredients = request.form.get('Ingredients')
         Instructions = request.form.get('Instructions')
-        slug = "recipe-post-"
+        slug = "recipe-post-" + str(random.randint(100,200000))
         tagger = "postedrec"
         f = request.files['images']
         if f.filename != '' :
@@ -233,7 +254,10 @@ def recipe_form():
         entry = Recipes(RecipeAuthor=RecipeAuthor,Category = Category, Title= Title,  Ingredients = Ingredients,Instructions = Instructions, Date= datetime.now(), Slug = slug, Image = images, Likes=0,Tagger = tagger)
         db.session.add(entry)
         db.session.commit()
-    return render_template("recipe_form.html",params=params)
+        recipe = Recipes.query.filter_by(Slug=slug).first()
+        return render_template("recipe-details.html",params=params,recipe=recipe,all_rec = all_rec,auth=RecipeAuthor)
+    else:
+        return render_template("recipe_form.html",params=params)
 
 @app.route('/recipes/recipe_details/<string:rec_slug>')
 def recipe_details(rec_slug):
@@ -241,6 +265,41 @@ def recipe_details(rec_slug):
     auth = User.query.filter_by(name = recipe.RecipeAuthor).first()
     all_rec = Recipes.query.filter_by().all()
     return render_template("recipe-details.html",params=params,recipe=recipe,all_rec = all_rec,auth=auth)
+    
+
+    
+       
+@app.route('/recipes/recipe_details/<string:rec_slug>', methods = ['GET', 'POST'])
+def recipe_convertor(rec_slug):
+    recipe = Recipes.query.filter_by(Slug=rec_slug).first()
+
+    url = "https://microsoft-translator-text.p.rapidapi.com/translate"
+
+    querystring = {"to[0]":"hi","api-version":"3.0","profanityAction":"NoAction","textType":"plain"}
+
+    payload1 = [{ "Text": recipe.Instructions }]
+    payload2 = [{ "Text": recipe.Ingredients }]
+    payload3 = [{ "Text": recipe.Title }]
+    headers = {
+        "content-type": "application/json",
+        "X-RapidAPI-Key": "04384185a2msha8801dfad644f63p15e50ajsnb860fe374bb6",
+        "X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com"
+    }
+
+    response1 = requests.post(url, json=payload1, headers=headers, params=querystring)
+    response2 = requests.post(url, json=payload2, headers=headers, params=querystring)
+    response3 = requests.post(url, json=payload3, headers=headers, params=querystring)
+
+    if (request.method =='POST'):
+        if('Convertor' in request.form) :
+            recipe.Instructions = response1.json()[0]['translations'][0]['text']
+            recipe.Ingredients = response2.json()[0]['translations'][0]['text']
+            recipe.Title = response3.json()[0]['translations'][0]['text']
+    all_rec = Recipes.query.filter_by().all()
+    auth = User.query.filter_by(name = recipe.RecipeAuthor).first()
+            
+    return render_template("recipe-details.html",params=params,recipe=recipe,all_rec = all_rec,auth=auth)
+
 
 
 @app.route('/recipes/search', methods = ['GET', 'POST'])
@@ -323,8 +382,10 @@ def shop():
 @app.route('/user_profile/<string:username>', methods = ['GET','POST'])
 def profile(username):
     search_name = User.query.filter_by(name = username).first()
+    recipe_posted = Recipes.query.filter_by(RecipeAuthor = username).all()
+    post_posted = Posts.query.filter_by(author = username).all()
     if(request.method=='GET'):
-        return render_template("user_profile.html",params = params,name=search_name)
+        return render_template("user_profile.html",params = params,name=search_name,recipe_posted=recipe_posted,post_posted=post_posted )
     elif (request.method=='POST'):
         search_name.name= request.form.get('name')
         search_name.email = request.form.get('email')
@@ -343,8 +404,8 @@ def profile(username):
             db.session.commit()
         else:
             flash("Password don't match")
-        return render_template("user_profile.html", params = params, name = search_name )
+        return render_template("user_profile.html", params = params, name = search_name ,recipe_posted=recipe_posted,post_posted=post_posted )
 
 
 if __name__ == "__main__" :
-    app.run(debug=True)
+    app.run(debug=True, host ="10.17.50.5")
