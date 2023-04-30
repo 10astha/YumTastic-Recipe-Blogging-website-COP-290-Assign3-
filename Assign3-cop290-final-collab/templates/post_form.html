@@ -127,14 +127,15 @@
       <div class="container" data-aos="fade-up">
 
         <div class="row g-0">
-
+          <div class="col-lg-5 quote-bg"style="background-image: url({{ url_for('static', filename='img/short-bg.jpg')}});"></div>
           <div class="col-lg-7">
-            <form action="/post_form" method="POST" class="php-email-form">
+            <form action="/post_form" method="POST" class="php-email-form" enctype="multipart/form-data">
+              {% if session.logged_in %}
               <h3>Post Details</h3>
               <p>Vel nobis odio laboriosam et hic voluptatem. Inventore vitae totam. Rerum repellendus enim linead sero park flows.</p>
               <div class="row gy-4">
                 <div class="col-md-12">
-                  <input type="text" name="author" class="form-control" placeholder="Name" required>
+                  <input type="text" name="RecipeAuthor" class="form-control" placeholder="{{session.username}}" disabled>
                 </div>
 
                 <div class="col-md-12 ">
@@ -152,17 +153,25 @@
                   <textarea class="form-control" name="content" rows="6" placeholder="Description" required></textarea>
                 </div>
                 <div class="col-md-12">
-                  Upload image:<input type="file" name = "images" id="file-ip-1" accept="image/*">
+                  Upload image:<input type="file" name = "images" id="file-ip-1" accept="image/*" required>
                 </div>
 
                 <div class="col-md-12 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
-                  <div class="sent-message">Your rpost has been uploaded successfully. Thank you!</div>
-                  {% if session.logged_in %}
+                  <div class="sent-message">Your post has been uploaded successfully. Thank you!</div>
+                  
                   <button type="submit">Upload</button>
                   {% else %}
-                  <p> Login to continue</p>
+                  <h3> Login to continue.</h3>
+                  <p> <h5>Following things are required for a post.</h5></p>
+                  <ul>
+                    <li>Name of Author</li>
+                    <li>Email.</li>
+                    <li>Title.</li>
+                    <li>Content.</li>
+                    <li>Image.</li>
+                  </ul>
                   {% endif %}
                 </div>
 
@@ -171,7 +180,6 @@
             </form>
           </div><!-- End Quote Form -->
 
-          <div class="col-lg-5 quote-bg"style="background-image: url({{ url_for('static', filename='img/short-bg.jpg')}});"></div>
 
         </div>
 
