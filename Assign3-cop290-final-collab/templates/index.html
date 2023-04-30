@@ -32,9 +32,8 @@
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center">
+  <script src="https://www.socialintents.com/api/chat/socialintents.1.3.js#2c9fab3587b01e6f0187ce49507c1a95" async="async"></script>
+    <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="/" class="logo d-flex align-items-center">
@@ -201,8 +200,27 @@
 
       </div>
     </section><!-- End Get Started Section -->
-
-
+    <section id="get-started" class="get-started section-bg">
+      <div class="container" >
+        <div class="row justify-content-between gy-4">
+          <div class="col-lg-8 d-flex align-items-center" data-aos="fade-up">
+            <div class="content">
+              <form action="/" method="POST"  enctype="multipart/form-data">
+                <h3>Is It Healthy?</h3>
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="enter recipe name">
+                </div>
+                <div class="error-message"></div>
+                <br>
+                <button type="submit" >Submit</button>
+                <p><h4>Benefits:</h4>{{params['benefit_str']}}</p>
+                <p><h4>Caution:</h4>{{params['caution_str']}}</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- ============ Recipes section with categorization-->
     <section id="sq_section" class="sq_section">
       <div class="container" data-aos="fade-up">
