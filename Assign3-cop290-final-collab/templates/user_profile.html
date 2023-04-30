@@ -150,9 +150,6 @@
                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                         </li>
                         
-                        <li class="nav-item">
-                          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-following">Following</button>
-                        </li>
 
                         <li class="nav-item">
                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-post-uploaded">Post Uploaded</button>
@@ -163,8 +160,7 @@
                         </li>
         
                       </ul>
-                      <div class="tab-content pt-2">
-        
+                      <div class="tab-content pt-2">      
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
                           <h5 class="card-title">Profile Details</h5>
         
@@ -236,11 +232,45 @@
         
                         </div>
         
-                        <div class="tab-pane fade pt-3" id="profile-change-password">
-        
-                        </div>
-        
-                      </div><!-- End Bordered Tabs -->
+                        <div class="tab-pane fade pt-3" id="profile-post-uploaded">
+                            <h2>Your Posts</h2>                  
+                            <div class="row gy-4 sqr-container" data-aos="fade-up" data-aos-delay="200">
+                              {% for post in post_posted %}  
+                              <div class="col-lg-4 col-md-6 sqr-item filter-breakfast">
+                                <div class="sqr-content h-100">
+                                  {% set fname = 'img/foodimg/' +  post.images  %}
+                                  <img src="{{ url_for('static', filename=fname)}}" width="1000px" style = "object-fit: fill;" class="img-fluid" alt=""/>
+                                  <div class="sqr-info">
+                                    <p>{{post.title}}</p>
+                                    <a href="/homechef/all_posts/post_details/{{post.slug}}"" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                                  </div>
+                                </div>
+                              </div><!-- End Projects Item -->
+                              {% endfor %}
+                            </div><!-- End recipe Container -->
+                          </div>
+
+
+                          <div class="tab-pane fade pt-4" id="profile-recipe-uploaded">
+                            <h2>Your Recipes</h2>                  
+                            <div class="row gy-4 sqr-container" data-aos="fade-up" data-aos-delay="200">
+                              {% for rec in recipe_posted %}  
+                              <div class="col-lg-4 col-md-6 sqr-item filter-breakfast">
+                                <div class="sqr-content h-100">
+                                  {% set fname = 'img/foodimg/' +  rec.Image  %}
+                                  <img src="{{ url_for('static', filename=fname)}}" width="1000px" style = "object-fit: fill;" class="img-fluid" alt=""/>
+                                  <div class="sqr-info">
+                                    <p>{{rec.Title}}</p>
+                                    <a href="/homechef/all_posts/post_details/{{rec.Slug}}"" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                                  </div>
+                                </div>
+                              </div><!-- End Projects Item -->
+                              {% endfor %}
+                            </div><!-- End recipe Container -->
+                          </div>
+                        
+                        </div><!-- End Bordered Tabs -->
+                      </div>
         
                     </div>
                   </div>
